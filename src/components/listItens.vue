@@ -1,12 +1,22 @@
 
 <script>
+import { useBuyStore } from "../stores/buyList"
+import { storeToRefs } from 'pinia';
+
+
 export default {
     name: 'listItens',
 
     setup() {
-        console.log('teste');
+        const store = useBuyStore()
+        const { itemsList } = storeToRefs(store);
+        const { getTotal } = storeToRefs(store);
 
+        const { toggleDone } = store;
+        const { deleteItem } = store;
+      
 
+        return { itemsList, toggleDone, deleteItem, getTotal };
     }
 }
 
@@ -14,7 +24,7 @@ export default {
 
 <template>
     <div>
-        <table class="table table-light mt-3 table-sm">
+        <table class="table  mt-3 table-sm">
             <thead class="table-dark">
                 <tr>
                     <th scope="col">#</th>
@@ -24,19 +34,48 @@ export default {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Banana</td>
-                    <td>R$2,50</td>
+                <tr v-for="itens in itemsList" :key="itens.id" :class="{ done: itens.done }">
+                    <th scope="row"><input type="checkbox" :value="itens.done" class="form-check-input" id=""
+                            @click="toggleDone(itens.id)"> </th>
+                    <td>{{ itens.item }}</td>
+                    <td>{{ itens.value }}</td>
                     <td>
-                        <button class="btn btn-info">EDIT</button>
-                        <button class="btn btn-danger ms-2">DEL</button>
+                        <button class="btn ms-2" @click="deleteItem(itens.id)">&#10060;</button>
                     </td>
                 </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <th scope="row">Valor Total</th>
+                    <td></td>
+                    <td></td>
+                    <td>{{ getTotal }}</td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </template>
 
 <style>
+.done {
+    background-image: linear-gradient(to right,
+            #314755 0%,
+            #26a0da 51%,
+            #314755 100%);
+    color: white;
+    text-decoration: line-through;
+    align-items: center;
+
+}
+
+tr {
+    background-color: aliceblue;
+    vertical-align: middle;
+    font-size: large;
+}
+
+button {
+    color: #fff;
+}
+
 </style>

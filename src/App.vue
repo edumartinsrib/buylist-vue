@@ -106,4 +106,16 @@ a {
   text-decoration: none;
 
 }
+.colorEffect {
+  background: rgb(131, 58, 180);
+  background: linear-gradient(
+    276deg,
+    rgb(131, 58, 180) 0%,
+    rgba(253, 29, 29, 1) 89%,
+    rgba(252, 176, 69, 1) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 </style>
